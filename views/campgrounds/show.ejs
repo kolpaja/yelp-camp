@@ -1,13 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Show</title>
-  </head>
-  <body>
-    <h1><%= campgrounds.title %></h1>
-    <h2><%= campgrounds.location %></h2>
-  </body>
-</html>
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card mb-3">
+      <img
+        src="<%= campgrounds.image %>"
+        class="card-img-top"
+        alt="<%= campgrounds.description %>"
+      />
+      <div class="card-body">
+        <h5 class="card-title"><%= campgrounds.title %></h5>
+        <p class="card-text"><%= campgrounds.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted"><%= campgrounds.location %></li>
+        <li class="list-group-item">$ <%= campgrounds.price %>/night</li>
+      </ul>
+      <div class="card-body">
+        <a
+          href="/campgrounds/<%= campgrounds._id  %>/edit"
+          class="card-link btn btn-primary"
+          >Edit</a
+        >
+
+        <form
+          class="d-inline"
+          action="/campgrounds/<%= campgrounds._id %>?_method=DELETE"
+          method="post"
+        >
+          <button class="btn btn-danger card-link">Delete</button>
+        </form>
+      </div>
+      <div class="card-footer text-muted">2 days ago</div>
+    </div>
+    <footer>
+      <div class="mb-3">
+        <a href="/campgrounds" class="link-primary text-decoration-none"
+          >&#8656; back to All Campgrounds</a
+        >
+      </div>
+    </footer>
+  </div>
+</div>
