@@ -5,6 +5,8 @@
     <form
       action="/campgrounds/<%= campgrounds._id %>?_method=PUT"
       method="POST"
+      novalidate
+      class="needs-validation"
     >
       <div class="mb-3">
         <label class="form-label" for="title">Name </label>
@@ -14,7 +16,9 @@
           id="title"
           name="campground[title]"
           value="<%= campgrounds.title  %>"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="location">Location </label>
@@ -24,7 +28,9 @@
           id="location"
           name="campground[location]"
           value="<%= campgrounds.location %>"
+          required
         />
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="col mb-3">
         <label class="form-label" for="image">Image Url </label>
@@ -34,19 +40,8 @@
           id="image"
           name="campground[image]"
           value="<%= campgrounds.image  %>"
+          required
         />
-      </div>
-      <div class="col mb-3">
-        <label class="form-label" for="description">Description</label>
-        <textarea
-          class="form-control"
-          type="text"
-          id="description"
-          name="campground[description]"
-        >
-<%= campgrounds.description %>
-          </textarea
-        >
       </div>
       <div class="mb-3">
         <label for="price">Campground Price:</label>
@@ -60,8 +55,23 @@
             name="campground[price]"
             aria-describedby="price"
             value="<%= campgrounds.price %>"
+            required
           />
         </div>
+      </div>
+      <div class="col mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="campground[description]"
+          required
+        >
+<%= campgrounds.description %>
+          </textarea
+        >
+        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="d-grid gap-2 mb-3">
         <button class="btn btn-info">Save Changes</button>

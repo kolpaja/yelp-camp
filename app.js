@@ -5,6 +5,7 @@ const methodOverride = require("method-override");
 const ejsLint = require("ejs-lint");
 const ejsMate = require("ejs-mate");
 const Campground = require("./models/campground");
+const wrapAsync = require("./utilities/wrapAsync")
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
@@ -38,32 +39,32 @@ app.get("/makecampground", async (req, res) => {
   res.send(camp);
 });
 
-app.get("/campgrounds", async (req, res) => {
+app.get("/campgrounds", wrapAsync(async (req, res) => {
   const campgrounds = await Campground.find({});
   res.render("campgrounds/index", { campgrounds });
-});
+}));
 
 app.get("/campgrounds/new", (req, res) => {
   res.render("campgrounds/new");
 });
 
-app.post("/campgrounds", async (req, res) => {
+app.post("/campgrounds", wrapAsync(async (req, res) => {
   const campground = new Campground(req.body.campground);
   await campground.save();
   res.redirect(`/campgrounds/${campground._id}`);
-});
+}));
 
-app.get("/campgrounds/:id", async (req, res) => {
+app.get("/campgrounds/:id", wrapAsync(async (req, res) => {
   const campgrounds = await Campground.findById(req.params.id);
   res.render("campgrounds/show", { campgrounds });
-});
+}));
 
-app.get("/campgrounds/:id/edit", async (req, res) => {
+app.get("/campgrounds/:id/edit", wrapAsync(async (req, res) => {
   const campgrounds = await Campground.findById(req.params.id);
   res.render("campgrounds/edit", { campgrounds });
-});
+}));
 
-app.put("/campgrounds/:id", async (req, res) => {
+app.put("/campgrounds/:id", wrapAsync(async (req, res) => {
   const { id } = req.params;
   const campgrounds = await Campground.findByIdAndUpdate(
     id,
@@ -74,16 +75,19 @@ app.put("/campgrounds/:id", async (req, res) => {
     }
   );
   res.redirect(`/campgrounds/${campgrounds._id}`);
-});
+}));
 
-app.delete("/campgrounds/:id", async (req, res) => {
+app.delete("/campgrounds/:id", wrapAsync(async (req, res) => {
   const { id } = req.params;
   const campgrounds = await Campground.findByIdAndDelete(id);
   res.redirect("/campgrounds");
-});
+}));
 
 app.get("/", (req, res) => {
   res.render("campgrounds/home");
 });
 
+app.use((err, req, res, next) => {
+  res.send("oh no no no oh no error")
+})
 app.listen(8080, () => console.log("Listening from port 8080"));
