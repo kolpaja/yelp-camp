@@ -18,6 +18,7 @@
           required
         />
         <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please enter the name of campground.</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="location">Location </label>
@@ -29,6 +30,7 @@
           required
         />
         <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please enter location of campground.</div>
       </div>
       <div class="col mb-3">
         <label class="form-label" for="image">Image Url </label>
@@ -39,8 +41,8 @@
           name="campground[image]"
           required
         />
+        <div class="invalid-feedback">Please enter the image URL.</div>
       </div>
-
       <div class="mb-3">
         <label for="price">Campground Price:</label>
         <div class="input-group mb-3">
@@ -54,8 +56,9 @@
             aria-describedby="price"
             required
           />
+          <div class="invalid-feedback">Please enter the price/night.</div>
+          <div class="valid-feedback">Looks good!</div>
         </div>
-        <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="col mb-3">
         <label class="form-label" for="description">Description</label>
@@ -67,6 +70,9 @@
           required
         ></textarea>
         <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">
+          Please enter a message in the textarea.
+        </div>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Campground</button>

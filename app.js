@@ -5,7 +5,9 @@ const methodOverride = require("method-override");
 const ejsLint = require("ejs-lint");
 const ejsMate = require("ejs-mate");
 const Campground = require("./models/campground");
+const { campgroundSchemaJoi } = require("./validateSchemas.js")
 const wrapAsync = require("./utilities/wrapAsync")
+const ExpressError = require("./utilities/ExpressError")
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
@@ -30,6 +32,14 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+const validateCampground = (req, res, next) => {
+  const { error } = campgroundSchemaJoi.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(",")
+    throw new ExpressError(msg, 400)
+  } else return next()
+}
+
 app.get("/makecampground", async (req, res) => {
   const camp = new Campground({
     title: "bacja mbrapa shpis",
@@ -48,7 +58,8 @@ app.get("/campgrounds/new", (req, res) => {
   res.render("campgrounds/new");
 });
 
-app.post("/campgrounds", wrapAsync(async (req, res) => {
+app.post("/campgrounds", validateCampground, wrapAsync(async (req, res) => {
+  // if (!req.body.campground) throw new ExpressError("Invalid campground data", 400)
   const campground = new Campground(req.body.campground);
   await campground.save();
   res.redirect(`/campgrounds/${campground._id}`);
@@ -64,7 +75,7 @@ app.get("/campgrounds/:id/edit", wrapAsync(async (req, res) => {
   res.render("campgrounds/edit", { campgrounds });
 }));
 
-app.put("/campgrounds/:id", wrapAsync(async (req, res) => {
+app.put("/campgrounds/:id", validateCampground, wrapAsync(async (req, res) => {
   const { id } = req.params;
   const campgrounds = await Campground.findByIdAndUpdate(
     id,
@@ -84,10 +95,17 @@ app.delete("/campgrounds/:id", wrapAsync(async (req, res) => {
 }));
 
 app.get("/", (req, res) => {
-  res.render("campgrounds/home");
+  res.render("home");
 });
 
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page not Found", 404))
+})
+
 app.use((err, req, res, next) => {
-  res.send("oh no no no oh no error")
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Oh no something went wrong!"
+  res.status(statusCode).render("error", { err })
 })
 app.listen(8080, () => console.log("Listening from port 8080"));
