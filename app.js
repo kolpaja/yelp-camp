@@ -5,10 +5,12 @@ const methodOverride = require("method-override");
 const ejsLint = require("ejs-lint");
 const ejsMate = require("ejs-mate");
 const Campground = require("./models/campground");
-const { campgroundSchemaJoi } = require("./validateSchemas.js")
+const Review = require("./models/review")
+const { campgroundSchemaJoi, reviewSchemaJoi } = require("./validateSchemas.js")
 const wrapAsync = require("./utilities/wrapAsync")
 const ExpressError = require("./utilities/ExpressError")
 const mongoose = require("mongoose");
+const review = require("./models/review");
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -34,6 +36,14 @@ app.set("views", path.join(__dirname, "views"));
 
 const validateCampground = (req, res, next) => {
   const { error } = campgroundSchemaJoi.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(",")
+    throw new ExpressError(msg, 400)
+  } else return next()
+}
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchemaJoi.validate(req.body);
   if (error) {
     const msg = error.details.map(el => el.message).join(",")
     throw new ExpressError(msg, 400)
@@ -66,7 +76,7 @@ app.post("/campgrounds", validateCampground, wrapAsync(async (req, res) => {
 }));
 
 app.get("/campgrounds/:id", wrapAsync(async (req, res) => {
-  const campgrounds = await Campground.findById(req.params.id);
+  const campgrounds = await Campground.findById(req.params.id).populate("reviews")
   res.render("campgrounds/show", { campgrounds });
 }));
 
@@ -93,6 +103,16 @@ app.delete("/campgrounds/:id", wrapAsync(async (req, res) => {
   const campgrounds = await Campground.findByIdAndDelete(id);
   res.redirect("/campgrounds");
 }));
+
+app.post("/campgrounds/:id/reviews", validateReview, wrapAsync(async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  const review = new Review(req.body.review);
+  campground.reviews.push(review);
+  await review.save();
+  await campground.save();
+  res.redirect(`/campgrounds/${id}`)
+}))
 
 app.get("/", (req, res) => {
   res.render("home");
