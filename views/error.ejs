@@ -1,10 +1,14 @@
 <% layout('layouts/boilerplate') %>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading"><%= err.message %></h4>
-  <p><%= err.stack %></p>
-</div>
-<div class="mb-3">
-  <a href="/campgrounds" class="link-primary text-decoration-none"
-    >&#8656; back to All Campgrounds</a
-  >
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%= err.message %></h4>
+      <p><%= err.stack %></p>
+    </div>
+    <div class="mb-3">
+      <a href="/campgrounds" class="link-primary text-decoration-none"
+        >&#8656; back to All Campgrounds</a
+      >
+    </div>
+  </div>
 </div>
