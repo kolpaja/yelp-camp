@@ -59,6 +59,9 @@ passport.serializeUser(User.serializeUser()); //helps in session keep user logge
 passport.deserializeUser(User.deserializeUser()); //helps in session //remove user from logged in
 
 app.use((req, res, next) => {
+  if (!["/login", "/"].includes(req.originalUrl)) {
+    req.session.returnTo = req.originalUrl;
+  }
   res.locals.loggedInUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -68,15 +71,6 @@ app.use((req, res, next) => {
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
-
-app.get("/fakeuser", async (req, res) => {
-  const user = new User({
-    email: "test1@getMaxListeners.com",
-    username: "test1",
-  });
-  const newUser = await User.register(user, "password1");
-  res.send(newUser);
-});
 
 app.get("/", (req, res) => {
   res.render("home");

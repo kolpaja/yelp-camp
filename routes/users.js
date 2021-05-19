@@ -10,13 +10,16 @@ router.get("/register", (req, res) => {
 
 router.post(
   "/register",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     try {
       const { username, email, password } = req.body;
       const user = new User({ username, email });
       const registeredUser = await User.register(user, password);
-      req.flash("success", "Welcome to yelpcamp");
-      res.redirect("/campgrounds");
+      req.login(registeredUser, (err) => {
+        if (err) return next(err);
+        req.flash("success", "Welcome to yelpcamp");
+        res.redirect("/campgrounds");
+      });
     } catch (e) {
       req.flash("error", `${e.message} try another username`);
       res.redirect("/register");
@@ -36,7 +39,9 @@ router.post(
   }),
   (req, res) => {
     req.flash("success", "welcome back!");
-    res.redirect("/");
+    const redirectUrl = req.session.returnTo || "/";
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
   }
 );
 
