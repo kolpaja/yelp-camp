@@ -59,7 +59,7 @@ passport.serializeUser(User.serializeUser()); //helps in session keep user logge
 passport.deserializeUser(User.deserializeUser()); //helps in session //remove user from logged in
 
 app.use((req, res, next) => {
-  if (!["/login", "/"].includes(req.originalUrl)) {
+  if (!["/login"].includes(req.originalUrl)) {
     req.session.returnTo = req.originalUrl;
   }
   res.locals.loggedInUser = req.user;
