@@ -15,11 +15,11 @@ const sampleTitle = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
   await Campground.deleteMany({});
-  for (let index = 0; index < 50; index++) {
+  for (let index = 0; index < 5; index++) {
     const rand1000 = Math.floor(Math.random() * 1000);
     const randPrice = Math.floor(Math.random() * 20 + 1) + 10;
     const camp = new Campground({
-      author: "60a4d183124f5417209525dc",
+      author: "60a58c7366fa9b39f49e4d05",
       title: `${sampleTitle(descriptors)} ${sampleTitle(places)} `,
       location: `${cities[rand1000].city}, ${cities[rand1000].state}`,
       image: "http://source.unsplash.com/collection/484351",
