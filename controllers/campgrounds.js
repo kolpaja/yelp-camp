@@ -1,5 +1,7 @@
 const Campground = require("../models/campground");
 const { cloudinary } = require("../cloudinary");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+proccess.env.MAPBOX_TOKEN;
 
 module.exports.index = async (req, res) => {
   const campgrounds = await Campground.find({});
