@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -16,7 +20,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
 const mongoose = require("mongoose");
-const { getMaxListeners } = require("process");
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
