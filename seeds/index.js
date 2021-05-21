@@ -15,28 +15,21 @@ const sampleTitle = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
   await Campground.deleteMany({});
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 50; index++) {
     const rand1000 = Math.floor(Math.random() * 1000);
     const randPrice = Math.floor(Math.random() * 20 + 1) + 10;
     const camp = new Campground({
-      author: "60a58d38f4faf12d483f90c1",
+      author: "60a4d183124f5417209525dc",
       title: `${sampleTitle(descriptors)} ${sampleTitle(places)} `,
       location: `${cities[rand1000].city}, ${cities[rand1000].state}`,
       geometry: {
-        "coordinates": [
-          -77.792708,
-          24.6984075
-        ],
-        "type": "Point"
+        coordinates: [cities[rand1000].longitude, cities[rand1000].latitude],
+        type: "Point",
       },
       images: [
         {
-          url: "https://res.cloudinary.com/kolpaja/image/upload/v1621517633/YelpCamp/coszw80nfnmu2hej2vw1.jpg",
-          filename: "YelpCamp/coszw80nfnmu2hej2vw1",
-        },
-        {
-          url: "https://res.cloudinary.com/kolpaja/image/upload/v1621517633/YelpCamp/tdznqralja4kc8rgwfuk.jpg",
-          filename: "YelpCamp/tdznqralja4kc8rgwfuk",
+          url: "https://res.cloudinary.com/kolpaja/image/upload/v1621583020/YelpCamp/p3i22mpsnlinags1nstd.jpg",
+          filename: "YelpCamp/p3i22mpsnlinags1nstd",
         },
       ],
       price: randPrice,
