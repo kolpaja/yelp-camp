@@ -25,10 +25,12 @@ module.exports.renderLoginForm = (req, res) => {
 };
 
 module.exports.loginUser = (req, res) => {
-  req.flash("success", "welcome back!");
-  const redirectUrl = req.session.returnTo || "/";
-  delete req.session.returnTo;
-  res.redirect(redirectUrl);
+  res.send("adasd")
+  console.log("req:, ", req.body);
+  // req.flash("success", "welcome back!");
+  // const redirectUrl = req.session.returnTo || "/";
+  // delete req.session.returnTo;
+  // res.redirect(redirectUrl);
 };
 
 module.exports.logoutUser = (req, res) => {
