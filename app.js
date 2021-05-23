@@ -8,7 +8,6 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utilities/ExpressError");
-const session = require("express-session");
 const flash = require("connect-flash");
 const mongoSanitize = require("express-mongo-sanitize");
 const campgroundRoutes = require("./routes/campgrounds");
@@ -17,9 +16,12 @@ const userRoutes = require("./routes/users");
 const User = require("./models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const session = require('express-session');
 
-const dbUrl = process.env.DB_URL
-// "mongodb://localhost:27017/yelp-camp"
+const MongoDBStore = require("connect-mongo")
+
+// so we have the db url form mongo atlas or the local mongodb
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
 const mongoose = require("mongoose");
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
@@ -43,8 +45,21 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 
-const sessionConfig = {
+const store = new MongoDBStore({
+  mongoUrl: dbUrl,
   secret: "keyboard cat we've to store it better",
+  touchAfter: 24 * 60 * 60,
+
+})
+
+store.on("error", e => {
+  console.log("Session Store error", e);
+})
+
+const secret = process.env.SECRET || "keyboard cat we've to store it better";
+const sessionConfig = {
+  store,
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
