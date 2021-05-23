@@ -1,33 +1,54 @@
 <% layout('layouts/boilerplate') %>
-<div class="row">
-  <h1 class="text-center">Log In!</h1>
-  <div class="col-6 offset-3">
-    <form action="/login" method="POST" class="needs-validation" novalidate>
-      <div class="mb-3">
-        <label class="form-label" for="title">Username </label>
-        <input
-          class="form-control"
-          type="text"
-          id="username"
-          name="username"
-          required
-        />
+<div class="container d-flex justify-content-center align-items-center">
+  <div class="row">
+    <div class="col-8">
+      <div class="card shadow">
+        <div class="card-body">
+          <img
+            src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTJ8fGNhbXBncm91bmRzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            alt=""
+            class="card-img-top mb-3"
+          />
+          <div class="card-title">
+            <h5>Login</h5>
+          </div>
+          <form
+            action="/login"
+            method="POST"
+            class="needs-validation"
+            novalidate
+          >
+            <div class="mb-3">
+              <label class="form-label" for="title">Username </label>
+              <input
+                class="form-control"
+                type="text"
+                id="username"
+                name="username"
+                autofocus
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="title">Password </label>
+              <input
+                class="form-control"
+                type="password"
+                id="password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-success">Login</button>
+            </div>
+            <div>
+              If you do not have an account
+              <a href="/register">Click here!</a> to register.
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="title">Password </label>
-        <input
-          class="form-control"
-          type="password"
-          id="password"
-          name="password"
-          required
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">Login</button>
-      <span
-        >If you do not have an account <a href="/register">Click here!</a> to
-        register.</span
-      >
-    </form>
+    </div>
   </div>
 </div>

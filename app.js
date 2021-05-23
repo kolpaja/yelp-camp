@@ -10,7 +10,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utilities/ExpressError");
 const session = require("express-session");
 const flash = require("connect-flash");
-
+const mongoSanitize = require("express-mongo-sanitize");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
@@ -40,6 +40,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(mongoSanitize());
 
 const sessionConfig = {
   secret: "keyboard cat we've to store it better",
@@ -47,6 +48,7 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
@@ -76,7 +78,7 @@ app.use("/campgrounds/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("campgrounds/home");
 });
 
 app.all("*", (req, res, next) => {

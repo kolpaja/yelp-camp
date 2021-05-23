@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/star-heart.css" />
 <div class="row">
   <div class="col-6">
-    <div id='map' style='width: 400px; height: 300px;'></div>
+    
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% campgrounds.images.forEach((img,i)=> { %>
@@ -65,6 +65,7 @@
     </footer>
   </div>
   <div class="col-6">
+    <div id='map'></div>
     <% if (loggedInUser) { %>
     <h2>Leave a review</h2>
     <form
