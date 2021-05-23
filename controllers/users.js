@@ -25,7 +25,10 @@ module.exports.renderLoginForm = (req, res) => {
 };
 
 module.exports.loginUser = (req, res) => {
+<<<<<<< HEAD
 
+=======
+>>>>>>> e8d44efc6cb907cf81d9797245224e6f0f9d6f56
   console.log("login user:", req.body);
   req.flash("success", "welcome back!");
   const redirectUrl = req.session.returnTo || "/";
