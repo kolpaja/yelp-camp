@@ -13,26 +13,50 @@
     />
     <link rel="stylesheet" href="/stylesheets/home.css" />
   </head>
-  <body class="d-flex text-center text-white bg-dark">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <body class="d-flex flex-column  text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 h-50 p-3 mx-auto flex-column">
       <header class="mb-auto">
+
         <div class="d-flex justify-content-between">
           <h3 class="float-md-left mb-0">YelpCamp</h3>
-          <nav class="nav nav-masthead justify-content-center float-md-right">
-            <a href="#" class="nav-link active">Home</a>
-            <a href="/campgrounds" class="nav-link">Campgrounds</a>
-            <% if (!loggedInUser) { %>
-            <a class="nav-link" href="/login">Login</a>
-            <a class="nav-link" href="/register">Register</a>
-            <% }else { %>
-            <a href="#" class="nav-link"
-              ><i class="far fa-user-circle mt-1">
-                <%= loggedInUser.username %></i
-              ></a
+<nav class="navbar sticky-top navbar-expand-lg justify-content-center navbar-dark bg-transparent">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div
+            class="
+              collapse
+              navbar-collapse
+              d-lg-flex
+              justify-content-lg-between
+            "
+            id="navbarNavAltMarkup"
             >
-            <a class="nav-link" href="/logout">Logout</a>
-            <% } %>
-          </nav>
+            <div class="navbar-nav justify-content-center  float-md-right">
+              <a href="#" class="nav-link active">Home</a>
+              <a href="/campgrounds" class="nav-link">Campgrounds</a>
+              <% if (!loggedInUser) { %>
+              <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/register">Register</a>
+              <% }else { %>
+              <a href="#" class="nav-link"
+                ><i class="far fa-user-circle mt-1">
+                  <%= loggedInUser.username %></i
+                ></a
+              >
+              <a class="nav-link" href="/logout">Logout</a>
+              <% } %>
+            </div>
+            </nav>
+          </div>
         </div>
       </header>
       <main class="mx-3">
